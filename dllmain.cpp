@@ -11,6 +11,14 @@
 //#include "executorgui_dx11.h"
 #include "executorgui_dx9.h"
 
+void createConsole(const char* title) {
+    AllocConsole();
+    SetConsoleTitleA(title);
+
+    freopen_s((FILE**)stdin, "conin$", "r", stdin);
+    freopen_s((FILE**)stdout, "conout$", "w", stdout);
+}
+
 DWORD WINAPI main()
 {
     if (lua_sharedBase) {
@@ -18,7 +26,7 @@ DWORD WINAPI main()
         {
             return FALSE;
         }
-
+        
         MH_CreateHook(MAYBE_GMOD_RUNTIME_SETUP, &MAYBE_GMOD_RUNTIME_SETUP_HOOK, (LPVOID*)&MAYBE_GMOD_RUNTIME_SETUP_PTR);
         MH_CreateHook(GMOD_LUA_STACK_CHECK, &GMOD_LUA_STACK_CHECK_HOOK, (LPVOID*)&GMOD_LUA_STACK_CHECK_PTR);
         MH_CreateHook(lua_close, &lua_close_HOOK, (LPVOID*)&lua_close_PTR);
